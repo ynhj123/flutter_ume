@@ -10,7 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   vm_service: ^13.0.0
-  flutter_ume: ">=1.0.0 <2.0.0"
+  flutter_ume:
+    git:
+      url: git@github.com:ynhj123/flutter_ume.git
 
 dev_dependencies:
   flutter_test:
