@@ -12,7 +12,9 @@ dependencies:
   tuple: ^2.0.2
   share: ^2.0.4
   shared_preferences: ^2.2.2
-  flutter_ume: ">=1.0.0 <2.0.0"
+  flutter_ume:
+    git:
+      url: git@github.com:ynhj123/flutter_ume.git
 
 dev_dependencies:
   flutter_test:
