@@ -4,8 +4,8 @@
 ///
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 import '../constants/extensions.dart';
 import '../instances.dart';
@@ -49,9 +49,7 @@ class DioPluggableState extends State<DioInspector> {
   /// since we've implemented the list with `findChildIndexCallback`.
   void _listener() {
     Future.microtask(() {
-      if (mounted &&
-          !context.debugDoingBuild &&
-          context.owner?.debugBuilding != true) {
+      if (mounted && !context.debugDoingBuild && context.owner?.debugBuilding != true) {
         setState(() {});
       }
     });
@@ -78,8 +76,7 @@ class DioPluggableState extends State<DioInspector> {
   }
 
   Widget _itemList(BuildContext context) {
-    final List<Response<dynamic>> requests =
-        InspectorInstance.httpContainer.pagedRequests;
+    final List<Response<dynamic>> requests = InspectorInstance.httpContainer.pagedRequests;
     final int length = requests.length;
     if (length > 0) {
       return CustomScrollView(
@@ -116,7 +113,7 @@ class DioPluggableState extends State<DioInspector> {
     return Material(
       color: Colors.black26,
       child: DefaultTextStyle.merge(
-        style: Theme.of(context).textTheme.bodyText2,
+        style: Theme.of(context).textTheme.bodyMedium,
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Container(
@@ -139,7 +136,7 @@ class DioPluggableState extends State<DioInspector> {
                       const Spacer(),
                       Text(
                         'Dio Requests',
-                        style: Theme.of(context).textTheme.subtitle1,
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                       Expanded(
                         child: Align(
