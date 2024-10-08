@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:tuple/tuple.dart';
 import 'package:flutter_ume/flutter_ume.dart';
 import 'package:flutter_ume_kit_console/console/console_manager.dart';
@@ -40,8 +40,7 @@ class Console extends StatefulWidget implements PluggableWithStream {
   StreamFilter get streamFilter => (e) => true;
 }
 
-class ConsoleState extends State<Console>
-    with WidgetsBindingObserver, StoreMixin {
+class ConsoleState extends State<Console> with WidgetsBindingObserver, StoreMixin {
   List<Tuple2<DateTime, String>> _logList = <Tuple2<DateTime, String>>[];
   StreamSubscription? _subscription;
   ScrollController? _controller;
@@ -68,8 +67,7 @@ class ConsoleState extends State<Console>
         _showDateTimeStyle = styleById(value);
       } else {
         _showDateTimeStyle = ShowDateTimeStyle.datetime;
-        await storeWithKey(
-            'console_panel_datetime_style', idByStyle(_showDateTimeStyle!));
+        await storeWithKey('console_panel_datetime_style', idByStyle(_showDateTimeStyle!));
       }
       setState(() {});
     });
@@ -79,16 +77,14 @@ class ConsoleState extends State<Console>
       if (mounted) {
         if (_filterExp != null) {
           _logList = ConsoleManager.logData.where((e) {
-            return _filterExp!.hasMatch(e.item1.toString()) ||
-                _filterExp!.hasMatch(e.item2);
+            return _filterExp!.hasMatch(e.item1.toString()) || _filterExp!.hasMatch(e.item2);
           }).toList();
         } else {
           _logList = ConsoleManager.logData.toList();
         }
 
         setState(() {});
-        _controller!.jumpTo(
-            _controller!.position.maxScrollExtent + 22); // 22 is a magic number
+        _controller!.jumpTo(_controller!.position.maxScrollExtent + 22); // 22 is a magic number
       }
     });
   }
@@ -96,8 +92,7 @@ class ConsoleState extends State<Console>
   void _refreshConsole() {
     if (_filterExp != null) {
       _logList = ConsoleManager.logData.where((e) {
-        return _filterExp!.hasMatch(e.item1.toString()) ||
-            _filterExp!.hasMatch(e.item2);
+        return _filterExp!.hasMatch(e.item1.toString()) || _filterExp!.hasMatch(e.item2);
       }).toList();
     } else {
       _logList = ConsoleManager.logData.toList();
@@ -108,17 +103,13 @@ class ConsoleState extends State<Console>
     String result = '';
     switch (_showDateTimeStyle) {
       case ShowDateTimeStyle.datetime:
-        result =
-            '${_logList[_logList.length - logIndex - 1].item1.toString().padRight(26, '0')}';
+        result = '${_logList[_logList.length - logIndex - 1].item1.toString().padRight(26, '0')}';
         break;
       case ShowDateTimeStyle.time:
-        result =
-            '${_logList[_logList.length - logIndex - 1].item1.toString().padRight(26, '0')}'
-                .substring(11);
+        result = '${_logList[_logList.length - logIndex - 1].item1.toString().padRight(26, '0')}'.substring(11);
         break;
       case ShowDateTimeStyle.timestamp:
-        result =
-            '${_logList[_logList.length - logIndex - 1].item1.millisecondsSinceEpoch}';
+        result = '${_logList[_logList.length - logIndex - 1].item1.millisecondsSinceEpoch}';
         break;
       case ShowDateTimeStyle.none:
         result = '';
@@ -140,8 +131,7 @@ class ConsoleState extends State<Console>
               itemCount: _logList.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8, right: 8, top: 3, bottom: 3),
+                  padding: const EdgeInsets.only(left: 8, right: 8, top: 3, bottom: 3),
                   child: RichText(
                     text: TextSpan(children: [
                       TextSpan(
@@ -153,8 +143,7 @@ class ConsoleState extends State<Console>
                             fontWeight: FontWeight.w400,
                           )),
                       TextSpan(
-                          text:
-                              '${_logList[_logList.length - index - 1].item2}',
+                          text: '${_logList[_logList.length - index - 1].item2}',
                           style: TextStyle(
                             color: Colors.white,
                             fontFamily: 'Courier',
@@ -239,8 +228,7 @@ class ConsoleState extends State<Console>
 
   void _triggerShowDate() async {
     _showDateTimeStyle = styleById((idByStyle(_showDateTimeStyle!) + 1) % 4);
-    await storeWithKey(
-        'console_panel_datetime_style', idByStyle(_showDateTimeStyle!));
+    await storeWithKey('console_panel_datetime_style', idByStyle(_showDateTimeStyle!));
     setState(() {});
   }
 
@@ -259,6 +247,7 @@ class ConsoleState extends State<Console>
       return;
     }
     final l = _logList.map((e) => '${e.item1.toString()} ${e.item2}').toList();
-    return Share.share("${l.join('\n')}");
+    await Share.share("${l.join('\n')}");
+    return;
   }
 }
